@@ -17,12 +17,10 @@ export const validationMiddleware = (schema) => {
     }
 
     if (validationErrors.length) {
-      return next(
-        new Error(
-          { message: "validation error", validationErrors },
-          { cause: 400 }
-        )
-      );
+      const error = new Error("Validation error");
+      error.cause = 400;
+      error.details = validationErrors;
+      return next(error);
     }
 
     next();
